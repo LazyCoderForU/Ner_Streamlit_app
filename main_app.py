@@ -4,9 +4,15 @@ import nltk
 import spacy
 from nltk import pos_tag, word_tokenize
 
+import os
+os.system("python -m spacy download en_core_web_sm")
+
+
 # Download resources if not already
 nltk.download('averaged_perceptron_tagger')
 nltk.download('punkt')
+
+
 
 # Load CRF model
 with open('crf_model.pkl', 'rb') as f:
