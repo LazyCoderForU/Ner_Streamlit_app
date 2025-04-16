@@ -4,22 +4,20 @@ import nltk
 import spacy
 from nltk import pos_tag, word_tokenize
 
-import os
-os.system("python -m spacy download en_core_web_sm")
-
-
-# Download resources if not already
-nltk.download('averaged_perceptron_tagger')
+# Make sure NLTK resources are downloaded (only once)
 nltk.download('punkt')
+nltk.download('averaged_perceptron_tagger')
 
-
+# Load spaCy model safely (assume pre-installed in requirements.txt)
+try:
+    nlp = spacy.load("en_core_web_sm")
+except OSError:
+    st.error("SpaCy model 'en_core_web_sm' not found. Please install it via 'python -m spacy download en_core_web_sm'")
+    st.stop()
 
 # Load CRF model
 with open('crf_model.pkl', 'rb') as f:
     crf = pickle.load(f)
-
-# Load spaCy model
-nlp = spacy.load("en_core_web_sm")
 
 # Friendly labels for NER tags
 friendly_labels = {
@@ -51,7 +49,6 @@ color_map = {
 def word2features(sent, i):
     word = sent[i][0]
     postag = sent[i][1]
-
     features = {
         'bias': 1.0,
         'word.lower()': word.lower(),
@@ -87,7 +84,7 @@ def word2features(sent, i):
     else:
         features['BOS'] = True
 
-    if i < len(sent)-1:
+    if i < len(sent) - 1:
         word1 = sent[i+1][0]
         postag1 = sent[i+1][1]
         features.update({
@@ -121,16 +118,15 @@ if st.button("🔍 Analyze"):
     # Tokenize and POS tag the sentence
     tokens = word_tokenize(sentence)
     pos_tags = pos_tag(tokens)
-    
+
     # Predict NER tags
     ner_tags = crf.predict([sent2features(pos_tags)])[0]
 
     # Display the result nicely
     st.markdown("### 📊 NER Results:")
-    
     output_html = ""
     for word, tag in zip(tokens, ner_tags):
-        clean_tag = tag.replace("B-", "").replace("I-", "")  # clean B- and I-
+        clean_tag = tag.replace("B-", "").replace("I-", "")
         label = friendly_labels.get(clean_tag, "🔘 Unknown")
         bg_color = color_map.get(clean_tag, "#888888")
         output_html += f'<span style="background-color:{bg_color}; color:white; padding:4px 8px; margin:4px; border-radius:8px; display:inline-block;">{word}<small style="display:block; font-size:10px;">{label}</small></span> '
