@@ -1,23 +1,19 @@
 import streamlit as st
 import pickle
 import nltk
-import spacy
+import en_core_web_sm
 from nltk import pos_tag, word_tokenize
 
-# Make sure NLTK resources are downloaded (only once)
+# Download NLTK resources if missing
 nltk.download('punkt')
 nltk.download('averaged_perceptron_tagger')
-
-# Load spaCy model safely (assume pre-installed in requirements.txt)
-try:
-    nlp = spacy.load("en_core_web_sm")
-except OSError:
-    st.error("SpaCy model 'en_core_web_sm' not found. Please install it via 'python -m spacy download en_core_web_sm'")
-    st.stop()
 
 # Load CRF model
 with open('crf_model.pkl', 'rb') as f:
     crf = pickle.load(f)
+
+# Load spaCy model (pre-installed via requirements.txt)
+nlp = en_core_web_sm.load()
 
 # Friendly labels for NER tags
 friendly_labels = {
@@ -49,6 +45,7 @@ color_map = {
 def word2features(sent, i):
     word = sent[i][0]
     postag = sent[i][1]
+
     features = {
         'bias': 1.0,
         'word.lower()': word.lower(),
@@ -84,7 +81,7 @@ def word2features(sent, i):
     else:
         features['BOS'] = True
 
-    if i < len(sent) - 1:
+    if i < len(sent)-1:
         word1 = sent[i+1][0]
         postag1 = sent[i+1][1]
         features.update({
@@ -124,6 +121,7 @@ if st.button("🔍 Analyze"):
 
     # Display the result nicely
     st.markdown("### 📊 NER Results:")
+
     output_html = ""
     for word, tag in zip(tokens, ner_tags):
         clean_tag = tag.replace("B-", "").replace("I-", "")
