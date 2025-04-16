@@ -1,5 +1,0 @@
-streamlit
-scikit-learn
-sklearn-crfsuite
-nltk
-spacy
