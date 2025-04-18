@@ -11,21 +11,14 @@ This project implements a Named Entity Recognition (NER) system using a Conditio
 
 NER-CRF-Model/ │ ├── data/ # Folder containing the dataset │ └── ner_dataset.csv # The CSV dataset containing sentences, words, POS, and tags ├── src/ # Folder containing the source code │ ├── crf_model.py # Code for training and evaluating the CRF model │ └── preprocess.py # Code for data preprocessing ├── crf_model.pkl # The trained CRF model (saved using pickle) └── README.md # This README file
 
-perl
-Copy
-Edit
 
 ## Prerequisites
 
 Ensure you have the following Python libraries installed:
 
-```bash
 pip install sklearn-crfsuite scikit-learn pandas nltk spacy
 Additionally, you will need to download the en_core_web_sm model for spaCy:
 
-bash
-Copy
-Edit
 python -m spacy download en_core_web_sm
 Dataset
 The dataset ner_dataset.csv contains sentences labeled with various entity types (e.g., geo, org, per, gpe, tim, etc.). It is structured as follows:
@@ -152,10 +145,6 @@ Fine-tuning Pretrained Models: Fine-tune pre-trained NER models (like spaCy's NE
 
 License
 This project is licensed under the MIT License.
-
-css
-Copy
-Edit
 
 This `README.md` file includes an explanation of the project, setup instructions, how to use the model, and evaluation methods. It also provides a clear structure and an outline for future work. You can place this content in the `README.md` file of your repository.
 
