@@ -1,149 +1,109 @@
 
-# Named Entity Recognition (NER) with CRF Model
+# 📝 Named Entity Recognition (NER) using CRF & Streamlit
 
-This project implements a Named Entity Recognition (NER) system using a Conditional Random Field (CRF) model to identify named entities such as geographical locations, organizations, persons, dates, and more within text. The system is trained on a labeled dataset containing various named entity types (e.g., **geo**, **org**, **per**, **gpe**, **tim**, etc.) and can predict these entities in new, unseen sentences.
+Welcome to the **NER App** — a powerful, interactive tool to detect and visualize named entities (like 👤 persons, 🌍 locations, 🏢 organizations, and 🕒 time references) in text! Built using a **Conditional Random Field (CRF)** model, this web app leverages **NLTK**, **spaCy**, and **Streamlit** to provide an intuitive experience.
 
+---
 
+## 📂 Dataset
 
-## Prerequisites
+The model is trained on a dataset containing over **1 million rows** in the following format:
 
-Ensure you have the following Python libraries installed:
+```
+Sentence #     Word     POS     Tag
+Sentence: 1    London   NNP     B-geo
+              is       VBZ     O
+              ...      ...     ...
+```
 
-pip install sklearn-crfsuite scikit-learn pandas nltk spacy
-Additionally, you will need to download the en_core_web_sm model for spaCy:
+Each word is labeled with:
+- **POS tag**: Part-of-Speech (like noun, verb, etc.)
+- **NER tag**: Named Entity type (like B-geo for location)
 
-python -m spacy download en_core_web_sm
-Dataset
-The dataset ner_dataset.csv contains sentences labeled with various entity types (e.g., geo, org, per, gpe, tim, etc.). It is structured as follows:
+---
 
+## 🛠️ Features
 
-Sentence #	Word	POS	Tag
-Sentence: 1	Thousands	NNS	O
-...	...	...	...
-Sentence #: Unique identifier for each sentence.
+✅ CRF-based NER tagger  
+✅ Preprocessing with **NLTK** and **spaCy**  
+✅ Live entity prediction using a **Streamlit** app  
+✅ Friendly labels and color-coded visualization  
+✅ Table view for detailed output  
 
-Word: A single word in the sentence.
+---
 
-POS: Part of Speech tag.
+## 🎨 Tag Labels & Emojis
 
-Tag: NER label (e.g., B-geo, B-org, O, etc.).
+| Tag | Meaning | Emoji |
+|-----|---------|-------|
+| B-geo / I-geo | Geographical Location | 🌍 |
+| B-org / I-org | Organization | 🏢 |
+| B-per / I-per | Person | 👤 |
+| B-gpe / I-gpe | Geopolitical Entity | 🗺️ |
+| B-tim / I-tim | Time Expression | 🕒 |
+| B-art / I-art | Artifact | 🎨 |
+| B-eve / I-eve | Event | 🎉 |
+| B-nat / I-nat | Natural Phenomenon | 🌋 |
+| O | Other | ⚪ |
 
-Data Preprocessing
-The data preprocessing steps include:
+---
 
-Handling missing values: The 'Sentence #' column is filled using forward filling (ffill method).
+## 🚀 How to Run the App
 
-Grouping by sentence: The words are grouped by sentence, with each sentence represented as a list of tuples containing the word, its part of speech (POS) tag, and the corresponding NER label.
+### 🔧 Setup
 
-Feature Engineering: Various features (e.g., word case, POS, neighboring words) are extracted from each word in the sentence for model training.
+1. Clone the repo and navigate to the folder:
+   ```bash
+   git clone https://github.com/your-username/ner-crf-app.git
+   cd ner-crf-app
+   ```
 
-Model Training
-The CRF model is trained using the following steps:
+2. Install dependencies:
+   ```bash
+   pip install -r requirements.txt
+   ```
 
-Feature Extraction: Features such as word characteristics, POS tags, and neighboring words are extracted for each word in the sentence.
+3. Download and link the **spaCy** model:
+   ```bash
+   python -m spacy download en_core_web_sm
+   ```
 
-Model Training: A Conditional Random Field (CRF) model is trained using the sklearn-crfsuite library. The following hyperparameters are used:
+4. Launch the app:
+   ```bash
+   streamlit run 63332ae4-9a6a-45f2-8609-7284f8db335e.py
+   ```
 
-Algorithm: l2sgd (Stochastic Gradient Descent with L2 regularization)
+---
 
-Regularization: c2 = 0.1
+## 🧠 Model
 
-Max Iterations: 100
+- Model: `CRF` (Conditional Random Field)
+- Features extracted:
+  - Word shape, prefix/suffix, POS tags, surrounding context
+- Tagging follows BIO (Beginning-Inside-Outside) scheme
 
-Saving the Model: The trained model is saved as crf_model.pkl using the pickle library for future use.
+---
 
-Model Evaluation
-The model is evaluated using a test set, with the following metrics computed:
+## 🗃️ Files Included
 
-F1-score (weighted)
+- `ner_dataset.csv` → Large labeled dataset
+- `crf_model.pkl` → Pre-trained CRF model
+- `63332ae4-...py` → Streamlit frontend app
+- `requirements.txt` → List of dependencies
+- `README.md` → You're reading it! 😄
 
-Precision
+---
 
-Recall
+## 👨‍💻 Author
 
-Accuracy
+Made with ❤️ by **Brajesh Kumar**  
+📧 brajesh350194@gmail.com  
+🔗 [LinkedIn](https://www.linkedin.com/in/brajesh-gupta) | 💻 [GitHub](https://github.com/LazyCoderForU)
 
-Sample code for evaluating the model:
+---
 
-python
-Copy
-Edit
-f1_score = flat_f1_score(y_test, y_pred, average='weighted')
-print(f1_score)
+## 🏁 Future Improvements
 
-flat_f1_score(y_test, y_pred, average='weighted')
-flat_precision_score(y_test, y_pred, average='weighted')
-sequence_accuracy_score(y_test, y_pred)
-flat_recall_score(y_test, y_pred, average='weighted')
-flat_accuracy_score(y_test, y_pred)
-report = flat_classification_report(y_test, y_pred)
-print(report)
-Using the Trained CRF Model
-Once the model is trained, it can be used to predict named entities in new sentences. The steps to predict are:
-
-Tokenize the input sentence using nltk.
-
-POS tag the tokens using nltk.
-
-Extract features from the POS-tagged tokens.
-
-Predict the entities using the trained CRF model.
-
-Example of predicting named entities:
-
-python
-Copy
-Edit
-sentence = "India is going to win the Apple stocks and can get a profit of 2 billion dollars in the next year 2020 with 2kg of apples"
-tokens = nltk.word_tokenize(sentence)
-pos_tags = nltk.pos_tag(tokens)
-
-# Predict named entities using the trained CRF model
-ner_tags = crf.predict([sent2features(pos_tags)])[0]
-
-# Visualize the results using spaCy
-import spacy
-from spacy import displacy
-
-# Load spaCy model
-nlp = spacy.load("en_core_web_sm")
-
-# Create a spaCy doc from the sentence
-doc = nlp(sentence)
-for token, ner_tag in zip(doc, ner_tags):
-    token.ent_type_ = ner_tag
-
-# Render the named entities in the sentence
-displacy.render(doc, style="ent", jupyter=True)
-Visualization
-The named entities in the sentence can be visualized using the spaCy displacy tool. The entities will be highlighted in the rendered sentence.
-
-python
-Copy
-Edit
-displacy.render(doc, style='dep', jupyter=True, options={
-    "compact": True, "bg": "#09a3d5", "color": "white", "font": "Source Sans Pro", "fine_grained": True
-})
-Conclusion
-This project demonstrates how to build and evaluate a CRF-based Named Entity Recognition system. The trained model is capable of recognizing and classifying named entities in text. The model can be extended further by adding more advanced features, fine-tuning hyperparameters, or experimenting with other machine learning models.
-
-Future Work
-Hyperparameter Tuning: Optimize the CRF model by tuning its hyperparameters for better performance.
-
-Advanced Features: Integrate more sophisticated features like word embeddings (e.g., GloVe, Word2Vec).
-
-Deep Learning Models: Explore the use of deep learning models like BERT for NER.
-
-Fine-tuning Pretrained Models: Fine-tune pre-trained NER models (like spaCy's NER model) for the custom dataset.
-
-License
-This project is licensed under the MIT License.
-
-This `README.md` file includes an explanation of the project, setup instructions, how to use the model, and evaluation methods. It also provides a clear structure and an outline for future work. You can place this content in the `README.md` file of your repository.
-
-
-
-
-
-
-
+- 📈 Add model training notebook  
+- 🧪 Support evaluation metrics (precision, recall, F1)  
+- 🖼️ Highlight entities directly on uploaded documents
