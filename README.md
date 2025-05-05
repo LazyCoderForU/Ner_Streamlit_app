@@ -1,4 +1,3 @@
-
 # 📝 Named Entity Recognition (NER) using CRF & Streamlit
 
 Welcome to the **NER App** — a powerful, interactive tool to detect and visualize named entities (like 👤 persons, 🌍 locations, 🏢 organizations, and 🕒 time references) in text! Built using a **Conditional Random Field (CRF)** model, this web app leverages **NLTK**, **spaCy**, and **Streamlit** to provide an intuitive experience.
@@ -91,6 +90,43 @@ Each word is labeled with:
 - `63332ae4-...py` → Streamlit frontend app
 - `requirements.txt` → List of dependencies
 - `README.md` → You're reading it! 😄
+
+---
+
+## 🛠️ Tech Stack
+
+- **Programming Language**: Python 🐍
+- **Libraries**: NLTK, spaCy, Streamlit, sklearn-crfsuite
+- **Frontend**: Streamlit for interactive UI
+- **Backend**: CRF model for NER tagging
+- **Visualization**: Color-coded entity highlights
+
+---
+
+## 🔄 Workflow / How This Project Was Made
+
+1. **Data Preparation**:
+   - Collected and preprocessed a large dataset with over 1 million rows.
+   - Labeled data using BIO (Beginning-Inside-Outside) scheme for NER.
+
+2. **Feature Engineering**:
+   - Extracted features like word shape, prefix/suffix, POS tags, and surrounding context.
+
+3. **Model Training**:
+   - Trained a Conditional Random Field (CRF) model using sklearn-crfsuite.
+   - Tuned hyperparameters for optimal performance.
+
+4. **Frontend Development**:
+   - Built an interactive web app using Streamlit.
+   - Integrated the CRF model for live predictions.
+
+5. **Visualization**:
+   - Added color-coded highlights for entity types.
+   - Designed a table view for detailed output.
+
+6. **Deployment**:
+   - Packaged the app with all dependencies.
+   - Provided instructions for easy setup and usage.
 
 ---
 
