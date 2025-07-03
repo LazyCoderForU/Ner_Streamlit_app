@@ -54,7 +54,7 @@ Each word is labeled with:
 1. Clone the repo and navigate to the folder:
    ```bash
    git clone https://github.com/your-username/ner-crf-app.git
-   cd ner-crf-app
+   cd Ner_Streamlit_app
    ```
 
 2. Install dependencies:
