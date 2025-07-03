@@ -133,8 +133,8 @@ Each word is labeled with:
 ## 👨‍💻 Author
 
 Made with ❤️ by **Brajesh Kumar**  
-📧 brajesh350194@gmail.com  
-🔗 [LinkedIn](https://www.linkedin.com/in/brajesh-gupta) | 💻 [GitHub](https://github.com/LazyCoderForU)
+📧 brajeshguptaa1@gmail.com  
+
 
 ---
 
